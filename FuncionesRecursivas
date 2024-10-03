@@ -1,0 +1,61 @@
+public class FuncionesRecursivas {
+
+    // 1. Invertir un número
+    public static int invertirNumero(int n, int invertido) {
+        if (n == 0) {
+            return invertido;
+        } else {
+            invertido = (invertido * 10) + (n % 10);
+            return invertirNumero(n / 10, invertido);
+        }
+    }
+
+    // 2. Sumar los dígitos de un número elevado a una potencia
+    public static int sumaDigitos(int numero) {
+        if (numero < 10) {
+            return numero;
+        } else {
+            return (numero % 10) + sumaDigitos(numero / 10);
+        }
+    }
+
+    public static int sumarDigitosDePotencia(int base, int potencia) {
+        int resultado = (int) Math.pow(base, potencia);
+        return sumaDigitos(resultado);
+    }
+
+    // 3. Generar todas las combinaciones de una cadena con letras mayúsculas y minúsculas
+    public static void generarCombinaciones(String cadena, int index, String actual) {
+        if (index == cadena.length()) {
+            System.out.println(actual);
+            return;
+        }
+
+        // Opción 1: Dejar el carácter tal cual
+        generarCombinaciones(cadena, index + 1, actual + cadena.charAt(index));
+
+        // Opción 2: Cambiar el carácter a mayúscula/minúscula si es una letra
+        if (Character.isLetter(cadena.charAt(index))) {
+            char cambiado = Character.isUpperCase(cadena.charAt(index)) ?
+                    Character.toLowerCase(cadena.charAt(index)) :
+                    Character.toUpperCase(cadena.charAt(index));
+            generarCombinaciones(cadena, index + 1, actual + cambiado);
+        }
+    }
+
+    public static void main(String[] args) {
+        // Prueba del ejercicio 1: Invertir un número
+        int numero = 1234;
+        System.out.println("Número invertido: " + invertirNumero(numero, 0));
+
+        // Prueba del ejercicio 2: Sumar los dígitos de un número elevado a una potencia
+        int base = 2;
+        int potencia = 10;
+        System.out.println("Suma de los dígitos de " + base + "^" + potencia + ": " + sumarDigitosDePotencia(base, potencia));
+
+        // Prueba del ejercicio 3: Generar todas las combinaciones de una cadena
+        String cadena = "abc";
+        System.out.println("Combinaciones de " + cadena + ":");
+        generarCombinaciones(cadena, 0, "");
+    }
+}
