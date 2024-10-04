@@ -1,0 +1,40 @@
+Verdadero o Falso:
+Los enumeradores hacen que una propiedad pueda ser solo 1 de los valores definidos.
+Verdadero: Los enumeradores (enums) limitan una propiedad a uno de los valores predefinidos.
+
+Los enumeradores pueden implementar variables.
+Verdadero: Los enumeradores pueden tener variables de instancia como parte de su definición.
+
+Las variables de los enumeradores pueden ser públicas.
+Falso: Generalmente las variables de los enumeradores se mantienen privadas para cumplir con el principio de encapsulación. Se acceden a través de métodos.
+
+Las variables implementadas en el enumerador deben ser finales.
+Falso: No es obligatorio que las variables de un enumerador sean final, aunque es una buena práctica si no van a cambiar.
+
+Si se implementa una variable en un enumerador, se deben declarar en un constructor.
+Verdadero: Si un enumerador tiene variables, estas se inicializan a través de un constructor.
+
+El constructor de los enumeradores puede ser público.
+Falso: Los constructores de un enumerador deben ser privados. No pueden ser públicos ni protegidos.
+
+Los enumeradores pueden implementar métodos.
+Verdadero: Los enumeradores pueden tener métodos, tanto específicos de instancias como estáticos.
+
+Los métodos de los enumeradores pueden ser públicos.
+Verdadero: Los métodos de los enumeradores pueden ser públicos y accesibles desde fuera del enumerador.
+
+Relación entre algoritmos y descripciones:
+A. Compara y cambia para adyacentes repetitivamente, moviendo los elementos más grandes hacia el final de cada pasada.
+BubbleSort
+
+B. Inserta cada elemento en su lugar correcto recorriendo los elementos anteriores hasta encontrar su posición.
+InsertionSort
+
+C. Divide la lista en sublistas, las ordena recursivamente, y luego las combina en una lista ordenada.
+MergeSort
+
+D. Selecciona repetitivamente el elemento más pequeño de la lista no ordenada y lo intercambia con el primero no ordenado.
+SelectionSort
+
+E. Divide y conquista, elige el pivote y reorganiza los elementos en subarreglos menores y mayores que el pivote.
+QuickSort

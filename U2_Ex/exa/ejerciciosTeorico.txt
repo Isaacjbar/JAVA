@@ -1,0 +1,55 @@
+Como modificarias el metodo add(sencillo) para que cambiar su valor del arreglo bidimencional?
+
+YO LO HICE ASI 
+
+package org.example;
+
+public class Actualizar {
+    public static <T> void add(T[][] arreglo, int fila, int columna, T element) {
+        arreglo[fila][columna] = element;
+    }
+
+    public static void main(String[] args) {
+        Integer[][] arreglo = {
+            {2, 5, 8},
+            {3, 6, 9},
+            {4, 7, 10}
+        };
+
+        add(arreglo, 0, 0, 199);
+        add(arreglo, 1, 1, 1);
+        add(arreglo, 2, 2, 10);
+
+        for (int i = 0; i < arreglo.length; i++) {
+            for (int j = 0; j < arreglo[i].length; j++) {
+                System.out.print(arreglo[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------
+PARA RESPONDER COMO VERDADERO O FALSO 
+
+//Los enumeradores hacen que una propiedad pueda ser solo 1 de los valores definidos
+//los enumeradores puedes implementar variables
+//Las variables de los enumeradores puedes ser publicas
+//Las variables implementadas en el enumerador deben ser finales
+//Si se implementa variable en un enumerador se deben declarar en un contructor
+//El constructor de los enumeradores pueden ser publico
+//los enumeradores pueden implementar metodos
+//los metodos de los enumeradores pueden ser publicos
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+//A.-Compara y cambia para adyacentes repetitivamente, moviendolos elementos mas grande hacia el fianl de cada pasada
+
+//B.-Inserta cada elemento en su lugar correcto recorriendo los elementos anteriores hasta encontrar su posicion
+
+//C-Divide la lista en sublistas, las ordena recursivamente, y luego las combina en una lista ordenada
+
+//D-Selecciona repetitivamente el elemento mas pequeño de la lista no ordenada y los intercambia con el primero no ordenado
+
+//E.-Divide y conquista, elige el pivoe y reorganiza los elementos en subarreglos menores y mayores que el pivote
+
+
+//Opciones: BubbleSort,Selectionsort,Quicksort,Insertionsort,MergeSort
