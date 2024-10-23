@@ -1,14 +1,19 @@
-import DoublyLinked.ListaPedidos;
+import DoublyLinked.DoubleLinkedList;
 import Model.Pedido;
 import Model.Platillo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Restaurante {
     public static void main(String[] args) {
-        ListaPedidos listaPedidos = new ListaPedidos();
+        DoubleLinkedList<Pedido> listaPedidos = new DoubleLinkedList<>();
+        ArrayList<Platillo> platillos = new ArrayList<>();
+        platillos.add(new Platillo("Lasaña", 250,false));
+        platillos.add(new Platillo("Pizza", 200,false));
+        platillos.add(new Platillo("Ensalada", 180,true));
         Scanner scanner = new Scanner(System.in);
         boolean salir = false;
 
@@ -17,7 +22,7 @@ public class Restaurante {
             System.out.println("2. Ver todos los pedidos de hoy");
             System.out.println("3. Ver pedidos de una fecha específica");
             System.out.println("4. Eliminar un pedido");
-            System.out.println("5. Cambiar detalles de un pedido");
+            System.out.println("5. Cambiar detalles de un pedido (actualizar los platillos de un pedido)");
             System.out.println("6. Ver pedidos de un cliente");
             System.out.println("7. Salir");
 
@@ -29,22 +34,37 @@ public class Restaurante {
                     // Register a new order
                     System.out.println("Número del pedido:");
                     int numero = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine(); // consume newline
                     System.out.println("Nombre del cliente:");
                     String cliente = scanner.nextLine();
                     System.out.println("Fecha del pedido (yyyy-mm-dd):");
                     Date fecha = Date.valueOf(scanner.nextLine());
 
-                    ArrayList<Platillo> platillos = new ArrayList<>();
-                    // Code to add dishes to platillos goes here...
+                    boolean enough = true;
+                    ArrayList<Platillo> tempPla = new ArrayList<>();
 
-                    Pedido nuevoPedido = new Pedido(numero, cliente, platillos, fecha);
-                    listaPedidos.registrarPedido(nuevoPedido);
+                    while (enough) {
+                        int i = 0;
+                        for (Platillo plat : platillos) {
+                            System.out.println("Id: " + "[" + i + "] " + plat.toString());
+                            i++;
+                        }
+                        System.out.println("Platillos disponibles, para escoger digite su id:");
+                        tempPla.add(platillos.get(scanner.nextInt()));
+                        scanner.nextLine();
+
+                        System.out.println("Pulse '2' para dejar de escoger o cualquier otro número para continuar:");
+                        String respuesta = scanner.nextLine();
+                        if (respuesta.equals("2")) {
+                            enough = false;
+                        }
+                    }
+                    Pedido nuevoPedido = new Pedido(numero, cliente, tempPla, fecha);
+                    listaPedidos.add(nuevoPedido);
                     break;
-
                 case 2:
-                    // View orders of today
-                    listaPedidos.verPedidosHoy(new Date(System.currentTimeMillis()));
+                    Timestamp timeNow = new Timestamp(2024-10-23);
+
                     break;
 
                 case 3:
