@@ -1,0 +1,8 @@
+Pedido Número: 121
+Cliente: Isaac
+Fecha: 2024-10-23
+Platillos:
+  - Platillo{nombre='Lasaña', precio=250.0, vegano=false}
+  - Platillo{nombre='Pizza', precio=200.0, vegano=false}
+Total: 450.0
+-----------------------------

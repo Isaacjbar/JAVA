@@ -2,8 +2,13 @@ import DoublyLinked.DoubleLinkedList;
 import Model.Pedido;
 import Model.Platillo;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,47 +68,130 @@ public class Restaurante {
                     listaPedidos.add(nuevoPedido);
                     break;
                 case 2:
-                    Timestamp timeNow = new Timestamp(2024-10-23);
+                    // Show all orders from today
+                    Date today = Date.valueOf(LocalDate.now()); // Use current date
+                    boolean foundOrders = false;
 
+                    for (int i = 0; i < listaPedidos.size(); i++) {
+                        Pedido temp = listaPedidos.get(i);
+                        if (temp.getFecha().equals(today)) {
+                            System.out.println(temp.toString());
+                            foundOrders = true;
+                        }
+                    }
+
+                    if (!foundOrders) {
+                        System.out.println("No se encontraron pedidos para hoy.");
+                    }
                     break;
 
                 case 3:
-                    // View orders by specific date
-                    System.out.println("Ingrese la fecha (yyyy-mm-dd):");
-                    Date fechaEspecifica = Date.valueOf(scanner.nextLine());
-                    listaPedidos.verPedidosPorFecha(fechaEspecifica);
-                    break;
+                    System.out.print("Ingrese la fecha (yyyy-mm-dd): ");
+                    String fechaInput = scanner.next();
+                    Date fecha2 = Date.valueOf(fechaInput);
 
+                    boolean pedidosEncontrados = false;
+
+                    for (int i = 0; i < listaPedidos.size(); i++) {
+                        Pedido pedido = listaPedidos.get(i);
+                        if (pedido.getFecha().equals(fecha2)) {
+                            System.out.println(pedido);
+                            pedidosEncontrados = true;
+                        }
+                    }
+
+                    if (!pedidosEncontrados) {
+                        System.out.println("No se encontraron pedidos para la fecha: " + fechaInput);
+                    }
+                    break;
                 case 4:
-                    // Delete an order by order number
                     System.out.println("Número del pedido a eliminar:");
                     int numeroEliminar = scanner.nextInt();
-                    listaPedidos.eliminarPedido(numeroEliminar);
+                    listaPedidos.remove(numeroEliminar);
                     break;
 
                 case 5:
-                    // Update order details
-                    System.out.println("Número del pedido a actualizar:");
-                    int numeroActualizar = scanner.nextInt();
-                    scanner.nextLine();
+                    System.out.print("Ingrese el número del pedido a modificar: ");
+                    int numeroPedido = scanner.nextInt();
+                    scanner.nextLine();  // Limpiar el buffer
+                    Pedido pedidoAActualizar = null;
 
-                    ArrayList<Platillo> nuevosPlatillos = new ArrayList<>();
-                    // Code to update the dish list goes here...
+                    for (int i = 0; i < listaPedidos.size(); i++) {
+                        Pedido pedido = listaPedidos.get(i);
+                        if (pedido.getNumero() == numeroPedido) {
+                            pedidoAActualizar = pedido;
+                            break;
+                        }
+                    }
 
-                    listaPedidos.actualizarPedido(numeroActualizar, nuevosPlatillos);
+                    if (pedidoAActualizar != null) {
+                        ArrayList<Platillo> nuevosPlatillos = new ArrayList<>();
+                        String opcionPlatillo;
+
+                        do {
+                            System.out.print("Ingrese el nombre del nuevo platillo: ");
+                            String nombre = scanner.nextLine();
+                            System.out.print("Ingrese el precio del platillo: ");
+                            double precio = scanner.nextDouble();
+                            System.out.print("¿Es vegano? (true/false): ");
+                            boolean vegano = scanner.nextBoolean();
+                            scanner.nextLine();
+
+                            nuevosPlatillos.add(new Platillo(nombre, precio, vegano));
+
+                            System.out.print("¿Desea agregar otro platillo? (s/n): ");
+                            opcionPlatillo = scanner.nextLine();
+                        } while (opcionPlatillo.equalsIgnoreCase("s"));
+
+                        pedidoAActualizar.getPlatillosPedidos().clear();
+                        pedidoAActualizar.getPlatillosPedidos().addAll(nuevosPlatillos);
+                        pedidoAActualizar.calcularTotal();
+
+                        System.out.println("Platillos del pedido actualizado correctamente.");
+                    } else {
+                        System.out.println("Pedido no encontrado.");
+                    }
                     break;
 
                 case 6:
-                    // View orders of a specific customer
-                    System.out.println("Ingrese el nombre del cliente:");
-                    String clienteBuscar = scanner.nextLine();
-                    listaPedidos.verPedidosPorCliente(clienteBuscar);
+                    System.out.print("Ingrese el nombre del cliente: ");
+                    String clienteD = scanner.next();
+
+                    for (int i = 0; i < listaPedidos.size(); i++) {
+                        Pedido pedido = listaPedidos.get(i);
+                        if (pedido.getCliente().equalsIgnoreCase(clienteD)) {
+                            System.out.println(pedido);
+                        }
+                    }
                     break;
 
                 case 7:
                     // Exit and save orders to file
-                    listaPedidos.guardarPedidosEnArchivo();
-                    salir = true;
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("pedidos.txt"))) {
+                        for (int i = 0; i < listaPedidos.size(); i++) {
+                            Pedido pedido = listaPedidos.get(i);
+                            writer.write("Pedido Número: " + pedido.getNumero());
+                            writer.newLine();
+                            writer.write("Cliente: " + pedido.getCliente());
+                            writer.newLine();
+                            writer.write("Fecha: " + pedido.getFecha());
+                            writer.newLine();
+                            writer.write("Platillos:");
+                            writer.newLine();
+                            for (Platillo platillo : pedido.getPlatillosPedidos()) {
+                                writer.write("  - " + platillo.toString());
+                                writer.newLine();
+                            }
+                            writer.write("Total: " + pedido.getTotal());
+                            writer.newLine();
+                            writer.write("-----------------------------");
+                            writer.newLine();
+                        }
+                        System.out.println("Pedidos guardados en pedidos.txt.");
+                    } catch (IOException e) {
+                        System.out.println("Error al guardar pedidos: " + e.getMessage());
+                    }
+                    salir = true; // exit the loop
                     break;
 
                 default:
@@ -111,6 +199,5 @@ public class Restaurante {
             }
         }
 
-        scanner.close();
     }
 }
