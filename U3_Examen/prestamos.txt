@@ -1,0 +1,1 @@
+ID Préstamo: 1, Usuario: Isaac, Libros: El Se�or de los Anillos2, El Se�or de los Anillos2, Breve historia del tiempo, Fecha Préstamo: 2024-10-25, Fecha Devolución: 2024-11-01, Estado: BUENO
