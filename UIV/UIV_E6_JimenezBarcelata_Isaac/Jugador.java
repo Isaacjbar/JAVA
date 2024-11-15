@@ -25,7 +25,7 @@ public class Jugador {
     public boolean tienePokemonDisponible() {
         return !equipo.isEmpty();
     }
-
+ 
     @Override
     public String toString() {
         return nombre + " con equipo: " + equipo.toString();

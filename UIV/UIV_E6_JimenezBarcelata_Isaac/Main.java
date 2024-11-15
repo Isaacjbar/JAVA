@@ -3,7 +3,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("¡Bienvenido al juego de Pokémon RPG!");
 
-        // Crear los Pokémon de cada jugador
+        // Crear los Pokémon de cada jugador con sus respectivos movimientos y atributos
         Pokemon chikorita = new Pokemon("Chikorita", 120, 20, 20, 25, Tipo.PLANTA, new Movimiento[] {Movimiento.LATIGO_CEPA, Movimiento.DRENADORAS});
         Pokemon vaporeon = new Pokemon("Vaporeon", 300, 40, 50, 35, Tipo.AGUA, new Movimiento[] {Movimiento.CASCADA, Movimiento.HIDRO_CANON});
         Pokemon fenekin = new Pokemon("Fenekin", 120, 25, 15, 28, Tipo.FUEGO, new Movimiento[] {Movimiento.ASCUAS, Movimiento.GIRO_FUEGO});
@@ -19,6 +19,6 @@ public class Main {
         Batalla pelea = new Batalla(ximena, erick);
 
         // Iniciar la batalla
-        pelea.inciar();
+        pelea.iniciar();
     }
 }
